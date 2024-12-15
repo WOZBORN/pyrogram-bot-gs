@@ -1,0 +1,13 @@
+# Virtualenv
+.venv/
+venv/
+.env/
+env/
+
+# Environment variables
+.env
+env
+
+# Ide
+.idea/
+.vscode/
