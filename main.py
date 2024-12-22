@@ -23,7 +23,7 @@ async def start_command(client: Client, message: Message):
     )
 
 
-@app.on_message(filters.command("help") | filters.regex(r"^.Помощь"))
+@app.on_message(filters.command("help") | filters.regex(r"❓Помощь"))
 async def help_command(client: Client, message: Message):
     await message.reply(
         "Я умею:\n"
@@ -33,7 +33,7 @@ async def help_command(client: Client, message: Message):
     )
 
 
-@app.on_message(filters.command("date") | filters.regex(r"^.Дата"))
+@app.on_message(filters.command("date") | filters.regex("🗓️Дата"))
 async def date_command(client: Client, message: Message):
     await message.reply(f"Сегодня {datetime.now().strftime('%d.%m.%Y')}")
 

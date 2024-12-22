@@ -1,10 +1,9 @@
 from pyrogram.types import KeyboardButton
-from pyrogram import emoji
 
 # Общие кнопки
-back_button = KeyboardButton(f"{emoji.BACK_ARROW}Назад")
+back_button = KeyboardButton(f"🔙Назад")
 
 # Кнопки меню
-date_button = KeyboardButton(f"{emoji.CALENDAR}Дата")
-help_button = KeyboardButton(f"{emoji.RED_QUESTION_MARK}Помощь")
-settings_button = KeyboardButton(f"{emoji.GEAR}Настройки")
+date_button = KeyboardButton(f"🗓️Дата")
+help_button = KeyboardButton(f"❓Помощь")
+settings_button = KeyboardButton(f"⚙️Настройки")
