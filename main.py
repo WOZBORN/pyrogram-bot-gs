@@ -5,7 +5,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 
 import config as cfg
-
+import keyboards
 
 app = Client(
     "gs_super_bot",
@@ -18,12 +18,12 @@ app = Client(
 @app.on_message(filters.command("start"))
 async def start_command(client: Client, message: Message):
     await message.reply(
-        "О! Привет! Я бот, прикинь?!\n"
-        "Напиши /help, чтобы увидеть мой функционал!"
+        "О! Привет! Я бот, прикинь?!\n",
+        reply_markup=keyboards.main_keyboard
     )
 
 
-@app.on_message(filters.command("help"))
+@app.on_message(filters.command("help") | filters.regex(r"^.Помощь"))
 async def help_command(client: Client, message: Message):
     await message.reply(
         "Я умею:\n"
@@ -33,7 +33,7 @@ async def help_command(client: Client, message: Message):
     )
 
 
-@app.on_message(filters.command("date"))
+@app.on_message(filters.command("date") | filters.regex(r"^.Дата"))
 async def date_command(client: Client, message: Message):
     await message.reply(f"Сегодня {datetime.now().strftime('%d.%m.%Y')}")
 
