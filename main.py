@@ -15,7 +15,7 @@ app = Client(
 )
 
 
-@app.on_message(filters.command("start"))
+@app.on_message(filters.command("start") | filters.regex("◀️Назад"))
 async def start_command(client: Client, message: Message):
     await message.reply(
         "О! Привет! Я бот, прикинь?!\n",
@@ -23,13 +23,21 @@ async def start_command(client: Client, message: Message):
     )
 
 
-@app.on_message(filters.command("help") | filters.regex(r"❓Помощь"))
+@app.on_message(filters.command("help") | filters.regex("❓Помощь"))
 async def help_command(client: Client, message: Message):
     await message.reply(
         "Я умею:\n"
         "/help - показать команды\n"
         "/date - напоминать дату\n"
         "/calc - калькулятор"
+    )
+
+
+@app.on_message(filters.command("settings") | filters.regex("⚙️Настройки"))
+async def settings_command(client: Client, message: Message):
+    await message.reply(
+        "Меню настроек. Выберите кнопку.",
+        reply_markup=keyboards.settings_keyboard
     )
 
 

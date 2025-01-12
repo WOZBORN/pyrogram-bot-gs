@@ -1,7 +1,7 @@
 from pyrogram.types import KeyboardButton
 
 # Общие кнопки
-back_button = KeyboardButton(f"🔙Назад")
+back_button = KeyboardButton(f"◀️Назад")
 
 # Кнопки меню
 date_button = KeyboardButton(f"🗓️Дата")
