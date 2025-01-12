@@ -7,12 +7,17 @@ from pyrogram.types import Message
 import config as cfg
 import keyboards
 
+import brawl_stars
+
 app = Client(
     "gs_super_bot",
     api_id=cfg.API_ID,
     api_hash=cfg.API_HASH,
     bot_token=cfg.BOT_TOKEN
 )
+
+
+battle_tag = ""
 
 
 @app.on_message(filters.command("start") | filters.regex("◀️Назад"))
@@ -31,6 +36,39 @@ async def help_command(client: Client, message: Message):
         "/date - напоминать дату\n"
         "/calc - калькулятор"
     )
+
+
+@app.on_message(filters.command("battletag"))
+async def battletag_command(client: Client, message: Message):
+    content = message.text.split()
+    if len(content) != 2:
+        await message.reply(
+            "Неправильно написал. Попробуй так:\n"
+            "/battletag #ТВОЙ-БАТТЛ-ТЭГ"
+        )
+        return
+    global battle_tag
+    battle_tag = content[1]
+    await message.reply(f"Твой баттлтэг: {content[1]}")
+
+
+@app.on_message(filters.command("brawler"))
+async def brawler_command(client: Client, message: Message):
+    content = message.text.split()
+    if len(content) != 2:
+        await message.reply(
+            "Неправильно написал. Попробуй так:\n"
+            "/brawler Shelly"
+        )
+        return
+    if battle_tag == "":
+        await message.reply(
+            "Не знаю твой battletag. Задай его так:\n"
+            "/battletag #ТВОЙ-БАТТЛ-ТЭГ"
+        )
+        return
+    brawler_info = brawl_stars.brawler_info(battle_tag, content[1])
+    await message.reply(brawler_info)
 
 
 @app.on_message(filters.command("settings") | filters.regex("⚙️Настройки"))
