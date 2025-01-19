@@ -2,7 +2,7 @@ from datetime import datetime
 import operator
 
 from pyrogram import Client, filters
-from pyrogram.types import Message
+from pyrogram.types import Message, CallbackQuery
 
 import config as cfg
 import keyboards
@@ -18,6 +18,18 @@ app = Client(
 
 
 battle_tag = ""
+
+
+@app.on_callback_query()
+async def shelly_callback(client: Client, callback_query: CallbackQuery):
+    if callback_query.data == "shelly":
+        if battle_tag == "":
+            await callback_query.message.edit(
+                "Не знаю твой battletag. Задай его так:\n /battletag #ТВОЙ-БАТТЛ-ТЭГ")
+            return
+        brawler_info = brawl_stars.brawler_info(battle_tag, "shelly")
+        await callback_query.message.edit(brawler_info)
+        return
 
 
 @app.on_message(filters.command("start") | filters.regex("◀️Назад"))
@@ -36,6 +48,15 @@ async def help_command(client: Client, message: Message):
         "/date - напоминать дату\n"
         "/calc - калькулятор"
     )
+
+
+@app.on_message(filters.command("inline"))
+async def inline_send_command(client: Client, message: Message):
+    await message.reply(
+        "Вот окно для теста inline-кнопок!",
+        reply_markup=keyboards.inline_test_keyboard
+    )
+
 
 
 @app.on_message(filters.command("battletag"))
