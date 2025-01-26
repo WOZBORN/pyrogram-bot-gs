@@ -21,7 +21,11 @@ battle_tag = ""
 
 
 @app.on_callback_query()
-async def shelly_callback(client: Client, callback_query: CallbackQuery):
+async def inline_callback(client: Client, callback_query: CallbackQuery):
+    if callback_query.data == "cat":
+        await callback_query.message.delete()
+        await callback_query.message.reply_photo("https://cataas.com/cat", reply_markup=keyboards.cat_keyboard)
+        return
     if callback_query.data == "shelly":
         if battle_tag == "":
             await callback_query.message.edit(
@@ -47,7 +51,14 @@ async def help_command(client: Client, message: Message):
         "/help - показать команды\n"
         "/date - напоминать дату\n"
         "/calc - калькулятор"
+        "/cat - котик"
     )
+
+
+@app.on_message(filters.command("cat") | filters.regex("🐈Котик"))
+async def cat_command(client: Client, message: Message):
+    url = "https://cataas.com/cat"
+    await message.reply_photo(photo=url, reply_markup=keyboards.cat_keyboard)
 
 
 @app.on_message(filters.command("inline"))

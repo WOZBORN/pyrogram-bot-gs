@@ -4,7 +4,7 @@ import buttons as b
 
 # Обычные клавиатуры
 main_keyboard = ReplyKeyboardMarkup([
-    [b.date_button, b.help_button],
+    [b.date_button, b.help_button, b.cat_button],
     [b.settings_button]
 ], resize_keyboard=True)
 
@@ -17,4 +17,9 @@ inline_test_keyboard = InlineKeyboardMarkup([
     [b.steam_random_button],
     [b.snake_button],
     [b.brawler_button]
+])
+
+# Cat keyboard
+cat_keyboard = InlineKeyboardMarkup([
+    [b.another_cat_button]
 ])

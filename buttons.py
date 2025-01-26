@@ -9,8 +9,10 @@ back_button = KeyboardButton(f"◀️Назад")
 date_button = KeyboardButton(f"🗓️Дата")
 help_button = KeyboardButton(f"❓Помощь")
 settings_button = KeyboardButton(f"⚙️Настройки")
+cat_button = KeyboardButton(f"🐈Котик")
 
 # Кнопки inline
 steam_random_button = InlineKeyboardButton("🎮Steam Random", url="https://store.steampowered.com/explore/random/")
 snake_button = InlineKeyboardButton("🐍Snake", web_app=WebAppInfo(url="https://snake.io/"))
 brawler_button = InlineKeyboardButton("🏹Brawler Shelly", callback_data="shelly")
+another_cat_button = InlineKeyboardButton("🐈Другой котик", callback_data="cat")
