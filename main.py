@@ -4,10 +4,12 @@ import operator
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery
 
+import brawl_stars
 import config as cfg
+import database
 import keyboards
 
-import brawl_stars
+
 
 app = Client(
     "gs_super_bot",
@@ -17,17 +19,22 @@ app = Client(
 )
 
 
-battle_tag = ""
+database.create_user_table()
 
 
 @app.on_callback_query()
 async def inline_callback(client: Client, callback_query: CallbackQuery):
+    tg_user = callback_query.from_user
+    user = database.get_user_name(tg_user.id)
+    if user == None:
+        database.add_user(tg_user.id, tg_user.first_name)
+    battle_tag = database.get_battletag(tg_user.id)[0]
     if callback_query.data == "cat":
         await callback_query.message.delete()
         await callback_query.message.reply_photo("https://cataas.com/cat", reply_markup=keyboards.cat_keyboard)
         return
     if callback_query.data == "shelly":
-        if battle_tag == "":
+        if battle_tag is None:
             await callback_query.message.edit(
                 "Не знаю твой battletag. Задай его так:\n /battletag #ТВОЙ-БАТТЛ-ТЭГ")
             return
@@ -79,21 +86,29 @@ async def battletag_command(client: Client, message: Message):
             "/battletag #ТВОЙ-БАТТЛ-ТЭГ"
         )
         return
-    global battle_tag
-    battle_tag = content[1]
+    tg_user = message.from_user
+    user = database.get_user_name(tg_user.id)
+    if user == None:
+        database.add_user(tg_user.id, tg_user.first_name)
+    database.set_battletag(tg_user.id, content[1])
     await message.reply(f"Твой баттлтэг: {content[1]}")
 
 
 @app.on_message(filters.command("brawler"))
 async def brawler_command(client: Client, message: Message):
     content = message.text.split()
+    tg_user = message.from_user
+    user = database.get_user_name(tg_user.id)
+    if user == None:
+        database.add_user(tg_user.id, tg_user.first_name)
+    battle_tag = database.get_battletag(tg_user.id)[0]
     if len(content) != 2:
         await message.reply(
             "Неправильно написал. Попробуй так:\n"
             "/brawler Shelly"
         )
         return
-    if battle_tag == "":
+    if battle_tag is None:
         await message.reply(
             "Не знаю твой battletag. Задай его так:\n"
             "/battletag #ТВОЙ-БАТТЛ-ТЭГ"
